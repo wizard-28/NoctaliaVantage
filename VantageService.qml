@@ -29,16 +29,19 @@ Item {
         id: _fan
         path: root.fanFile
         label: "fan mode"
-        parser: function(raw) {
+        parser: function (raw) {
             const v = parseInt(raw?.trim());
             if (isNaN(v)) {
                 Logger.w("Vantage", "Invalid fan value:", raw);
                 return undefined;
             }
             const bits = v & 7;
-            if (bits & 4) return 4;
-            if (bits & 2) return 2;
-            if (bits & 1) return 1;
+            if (bits & 4)
+                return 4;
+            if (bits & 2)
+                return 2;
+            if (bits & 1)
+                return 1;
             return 0;
         }
     }
@@ -56,9 +59,9 @@ Item {
     }
 
     SysfsProperty {
-      id: _alwaysOnUSB
-      path: root.alwaysOnUSBFile
-      label: "always on usb"
+        id: _alwaysOnUSB
+        path: root.alwaysOnUSBFile
+        label: "always on usb"
     }
 
     // ===== INIT =====
@@ -97,13 +100,12 @@ Item {
     }
 
     function setFnLockMode(enabled) {
-      Logger.i("Vantage", "Setting fnLock mode ->", enabled);
-      fnLock.write(enabled ? 1 : 0);
+        Logger.i("Vantage", "Setting fnLock mode ->", enabled);
+        fnLock.write(enabled ? 1 : 0);
     }
 
-
     function setAlwaysOnUSBMode(enabled) {
-      Logger.i("Vantage", "Setting alwaysOnUSB mode ->", enabled);
-      alwaysOnUSB.write(enabled ? 1 : 0);
+        Logger.i("Vantage", "Setting alwaysOnUSB mode ->", enabled);
+        alwaysOnUSB.write(enabled ? 1 : 0);
     }
 }
