@@ -12,7 +12,7 @@ Item {
     readonly property bool allowAttach: true
 
     property real contentPreferredWidth: Math.round(540 * Style.uiScaleRatio)
-    property real contentPreferredHeight: Math.round(520 * Style.uiScaleRatio)
+    property real contentPreferredHeight: Math.round(mainLayout.implicitHeight * Style.uiScaleRatio + Style.marginS)
 
     property int fanModeIndex: fanModeToIndex(vantage.fan.value)
 
@@ -198,15 +198,19 @@ Item {
 
         NBox {
             Layout.fillWidth: true
-            Layout.fillHeight: true
+            // Layout.fillHeight: true
+            height: list.height 
 
             NListView {
                 id: list
 
-                anchors.fill: parent
-                anchors.margins: Style.marginM
-                anchors.leftMargin: Style.margin2M
+                anchors {
+                  fill: parent
+                  margins: Style.marginM
+                  leftMargin: Style.margin2M
+                }
                 spacing: Style.marginS
+                height: Math.max(4 * 64, model.length * 64) // Allow up to 4 items at once
 
                 model: [
                     {
@@ -226,7 +230,7 @@ Item {
                         onToggled: checked => vantage.setConservationMode(checked)
                     },
                     {
-                        visible: true,
+                        visible: false,
                         icon: "battery-charging",
                         title: "Battery fast charge mode",
                         description: "Allows the battery to charge faster",
@@ -241,6 +245,7 @@ Item {
                         onToggled: checked => vantage.setAlwaysOnUSBMode(checked)
                     }
                 ].filter(item => item.visible)
+
 
                 delegate: SettingsRow {
                     icon: modelData.icon
