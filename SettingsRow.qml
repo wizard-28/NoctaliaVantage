@@ -8,9 +8,7 @@ Item {
 
     property string baseIcon
     property string checkedIcon: ""
-    readonly property string icon: root.checked
-    ? (checkedIcon === "" ? root.baseIcon + "-filled" : checkedIcon)
-    : baseIcon
+    readonly property string icon: root.checked ? (checkedIcon === "" ? root.baseIcon + "-filled" : checkedIcon) : baseIcon
     property string title
     property string description
     property bool checked

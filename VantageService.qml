@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell.Io
 import qs.Commons
 
 Item {
@@ -16,21 +15,20 @@ Item {
     readonly property alias conservation: _conservation
     readonly property alias fnLock: _fnLock
     readonly property alias alwaysOnUSB: _alwaysOnUSB
+    readonly property alias superKey: _superKey
+    readonly property alias touchpad: _touchpad
+    readonly property alias fastCharge: _fastcharge
+    readonly property alias overdrive: _overdrive
+    readonly property alias hybrid: _hybrid // TODO: reboot after applying changes
 
-
-    readonly property var controls: [
-        fan,
-        conservation,
-        fnLock,
-        alwaysOnUSB
-    ]
+    readonly property var controls: [fan, conservation, fnLock, alwaysOnUSB, superKey, touchpad, fastCharge, overdrive, hybrid]
 
     readonly property var fanModes: ({
-        SuperSilent: 0,
-        Standard: 1,
-        DustCleaning: 2,
-        EfficientThermalDissipation: 4
-    })
+            SuperSilent: 0,
+            Standard: 1,
+            DustCleaning: 2,
+            EfficientThermalDissipation: 4
+        })
 
     IdeapadSysfsProperty {
         id: _fan
@@ -45,7 +43,7 @@ Item {
             }
             const bits = v & 7; // Extarct last 3 bits
             if (this.validValues.includes(bits)) {
-              return bits;
+                return bits;
             }
 
             return root.fanModes.SuperSilent;
@@ -53,9 +51,9 @@ Item {
     }
 
     IdeapadSysfsProperty {
-      id: _conservation
-      file: "conservation_mode"
-      label: "conservation mode"
+        id: _conservation
+        file: "conservation_mode"
+        label: "conservation mode"
     }
 
     IdeapadSysfsProperty {
@@ -70,11 +68,41 @@ Item {
         label: "always on usb"
     }
 
+    LegionSysfsProperty {
+        id: _superKey
+        file: "winKey"
+        label: "super key"
+    }
+
+    LegionSysfsProperty {
+        id: _touchpad
+        file: "touchpad"
+        label: "touchpad"
+    }
+
+    LegionSysfsProperty {
+        id: _fastcharge
+        file: "rapidcharge"
+        label: "fast charge"
+    }
+
+    LegionSysfsProperty {
+        id: _overdrive
+        file: "overdrive"
+        label: "overdrive"
+    }
+
+    LegionSysfsProperty {
+        id: _hybrid
+        file: "gsync"
+        label: "hybrid graphics"
+    }
+
     // ===== INIT =====
     Component.onCompleted: {
         Logger.i("Vantage", "Service starting...");
         for (let c of controls) {
-          c.checkAvailability();
+            c.checkAvailability();
         }
     }
 
@@ -85,7 +113,7 @@ Item {
         }
         Logger.i("Vantage", "Refreshing values...");
         for (let c of controls) {
-          c.reload();
+            c.reload();
         }
     }
 }

@@ -220,18 +220,20 @@ Item {
                         onToggled: checked => vantage.fnLock.set(checked)
                     },
                     {
-                        visible: true,
+                        visible: vantage.superKey.available,
                         baseIcon: "brand-windows",
                         title: "Super key",
                         description: "Enables the Super/Windows key",
-                        checked: false
+                        checked: vantage.superKey.value,
+                        onToggled: checked => vantage.superKey.set(checked)
                     },
                     {
-                        visible: true,
+                        visible: vantage.touchpad.available,
                         baseIcon: "device-laptop",
                         title: "Touchpad",
                         description: "Enables the laptop's touchpad",
-                        checked: false
+                        checked: vantage.touchpad.value,
+                        onToggled: checked => vantage.touchpad.set(checked)
                     },
                     {
                         visible: vantage.conservation.available,
@@ -243,11 +245,12 @@ Item {
                         onToggled: checked => vantage.conservation.set(checked)
                     },
                     {
-                        visible: false,
+                        visible: vantage.fastCharge.available,
                         baseIcon: "battery-charging",
                         title: "Battery fast charge mode",
                         description: "Allows the battery to charge faster",
-                        checked: false
+                        checked: vantage.fastCharge.value,
+                        onToggled: checked => vantage.fastCharge.set(checked)
                     },
                     {
                         visible: vantage.alwaysOnUSB.available,
@@ -258,18 +261,20 @@ Item {
                         onToggled: checked => vantage.alwaysOnUSB.set(checked)
                     },
                     {
-                        visible: true,
+                        visible: vantage.overdrive.available,
                         baseIcon: "bolt",
                         title: "Display Overdrive",
                         description: "Reduces the laptop's display latency",
-                        checked: false
+                        checked: vantage.overdrive.value,
+                        onToggled: checked => vantage.overdrive.set(checked)
                     },
                     {
-                        visible: true,
+                        visible: vantage.hybrid.available,
                         baseIcon: "cpu",
                         title: "Hybrid graphics mode",
                         description: "Enables the laptop's integrated graphics",
-                        checked: false
+                        checked: vantage.hybrid.value,
+                        onToggled: checked => vantage.hybrid.set(checked)
                     }
                 ].filter(item => item.visible)
 
