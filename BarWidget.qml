@@ -9,10 +9,8 @@ import qs.Services.System
 Rectangle {
     id: root
 
-    // Plugin API (injected by PluginService)
     property var pluginApi: null
 
-    // Required properties for bar widgets
     property ShellScreen screen
     property string widgetId: ""
     property string section: ""

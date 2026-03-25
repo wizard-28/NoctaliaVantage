@@ -38,7 +38,7 @@ Item {
         parser: function (raw) {
             const v = parseInt(raw?.trim());
             if (isNaN(v)) {
-                Logger.w("Vantage", "Invalid fan value:", raw);
+                Logger.w("NoctaliaVantage", "Invalid fan value:", raw);
                 return undefined;
             }
             const bits = v & 7; // Extarct last 3 bits
@@ -100,7 +100,7 @@ Item {
 
     // ===== INIT =====
     Component.onCompleted: {
-        Logger.i("Vantage", "Service starting...");
+        Logger.i("NoctaliaVantage", "Service starting...");
         for (let c of controls) {
             c.checkAvailability();
         }
@@ -108,10 +108,10 @@ Item {
 
     function refresh() {
         if (!available) {
-            Logger.w("Vantage", "Refresh skipped: service not available");
+            Logger.w("NoctaliaVantage", "Refresh skipped: service not available");
             return;
         }
-        Logger.i("Vantage", "Refreshing values...");
+        Logger.i("NoctaliaVantage", "Refreshing values...");
         for (let c of controls) {
             c.reload();
         }

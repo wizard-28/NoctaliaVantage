@@ -57,7 +57,7 @@ Item {
     Component.onCompleted: {
         if (pluginApi) {
             vantage.refresh();
-            Logger.i("LenovoVantage", "Panel initialized");
+            Logger.i("NoctaliaVantage", "Panel initialized");
         }
     }
 

@@ -15,12 +15,12 @@ QtObject {
     property var transformWrite: v => typeof v === "boolean" ? (v ? 1 : 0) : v
 
     readonly property string sudoPrefix: "pkexec"
-    property var writeCommand: val => ["sh", "-c" ,`echo ${val} > ${root.path}`]
+    property var writeCommand: val => ["sh", "-c", `echo ${val} > ${root.path}`]
     property var parser: function (raw) {
         const v = parseInt(raw?.trim());
 
         if (isNaN(v)) {
-            Logger.w("Vantage", root.label + ": invalid value:", raw);
+            Logger.w("NoctaliaVantage", root.label + ": invalid value:", raw);
             return undefined;
         }
 
@@ -38,7 +38,7 @@ QtObject {
                 const r = parseInt(text);
                 root.available = r >= 1;
                 root.writeable = r === 2;
-                Logger.i("Vantage", root.label, "available:", root.available, "writable:", root.writeable);
+                Logger.i("NoctaliaVantage", root.label, "available:", root.available, "writable:", root.writeable);
                 if (root.available)
                     root.reload();
             }
@@ -61,9 +61,9 @@ QtObject {
                 return;
             if (parsed !== root.value) {
                 root.value = parsed;
-                Logger.i("Vantage", `${root.label} ->`, parsed);
+                Logger.i("NoctaliaVantage", `${root.label} ->`, parsed);
             } else {
-                Logger.d("Vantage", `${root.label} unchanged:`, parsed);
+                Logger.d("NoctaliaVantage", `${root.label} unchanged:`, parsed);
             }
         }
     }
@@ -73,15 +73,15 @@ QtObject {
         running: false
         property var pending: null
 
-        onStarted: Logger.i("Vantage", `Writing ${root.label}:`, pending)
+        onStarted: Logger.i("NoctaliaVantage", `Writing ${root.label}:`, pending)
 
         onExited: code => {
             if (code === 0) {
-                Logger.i("Vantage", `${root.label} write success:`, pending);
+                Logger.i("NoctaliaVantage", `${root.label} write success:`, pending);
                 root.value = pending;
                 root.writeFinished(true);
             } else {
-                Logger.e("Vantage", `${root.label} write failed, code: `, code);
+                Logger.e("NoctaliaVantage", `${root.label} write failed, code: `, code);
                 root.writeFinished(false);
             }
         }
@@ -92,20 +92,19 @@ QtObject {
     }
 
     function set(newVal) {
-        Logger.i("Vantage", `Setting ${root.label} mode ->`, newVal);
+        Logger.i("NoctaliaVantage", `Setting ${root.label} mode ->`, newVal);
         if (!root.available) {
-            Logger.e("Vantage", `${root.label}: not available`);
+            Logger.e("NoctaliaVantage", `${root.label}: not available`);
             return;
         }
 
-
         if (root.validValues && !root.validValues.includes(newVal)) {
-            Logger.e("Vantage", `${root.label}: invalid value:`, newVal);
+            Logger.e("NoctaliaVantage", `${root.label}: invalid value:`, newVal);
             return;
         }
 
         if (!writeCommand) {
-            Logger.e("Vantage", `${root.label}: no writeCommand set`);
+            Logger.e("NoctaliaVantage", `${root.label}: no writeCommand set`);
             return;
         }
 
@@ -113,7 +112,7 @@ QtObject {
 
         let cmd = root.writeCommand(finalVal);
         if (!root.writeable) {
-          cmd = [sudoPrefix, ...cmd];
+            cmd = [sudoPrefix, ...cmd];
         }
 
         writer.pending = finalVal;
