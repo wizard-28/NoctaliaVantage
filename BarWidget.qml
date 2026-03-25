@@ -28,7 +28,7 @@ Rectangle {
 
         NIcon {
             icon: "letter-v"
-            color: Color.mPrimary
+            color: Color.mOnSurfaceVariant
         }
     }
 
