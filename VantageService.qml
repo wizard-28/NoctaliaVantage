@@ -11,12 +11,6 @@ Item {
     // ===== STATE =====
     property bool available: fan.available || conservation.available || fnLock.available
 
-    readonly property string ideapadModPath: "/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00"
-    readonly property string fanFile: ideapadModPath + "/fan_mode"
-    readonly property string conservationFile: ideapadModPath + "/conservation_mode"
-    readonly property string fnLockFile: ideapadModPath + "/fn_lock"
-    readonly property string alwaysOnUSBFile: ideapadModPath + "/usb_charging"
-
     // ===== SYSFS PROPERTIES =====
     readonly property alias fan: _fan
     readonly property alias conservation: _conservation
@@ -38,9 +32,9 @@ Item {
         EfficientThermalDissipation: 4
     })
 
-    SysfsProperty {
+    IdeapadSysfsProperty {
         id: _fan
-        path: root.fanFile
+        file: "fan_mode"
         label: "fan mode"
         validValues: [root.fanModes.SuperSilent, root.fanModes.Standard, root.fanModes.DustCleaning, root.fanModes.EfficientThermalDissipation]
         parser: function (raw) {
@@ -58,21 +52,21 @@ Item {
         }
     }
 
-    SysfsProperty {
-        id: _conservation
-        path: root.conservationFile
-        label: "conservation mode"
+    IdeapadSysfsProperty {
+      id: _conservation
+      file: "conservation_mode"
+      label: "conservation mode"
     }
 
-    SysfsProperty {
+    IdeapadSysfsProperty {
         id: _fnLock
-        path: root.fnLockFile
+        file: "fn_lock"
         label: "fn lock"
     }
 
-    SysfsProperty {
+    IdeapadSysfsProperty {
         id: _alwaysOnUSB
-        path: root.alwaysOnUSBFile
+        file: "usb_charging"
         label: "always on usb"
     }
 
