@@ -14,7 +14,10 @@ Item {
     readonly property bool allowAttach: true
 
     property real contentPreferredWidth: Math.round(540 * Style.uiScaleRatio)
-    property real contentPreferredHeight: Math.round(mainLayout.implicitHeight * Style.uiScaleRatio + Style.margin2M)
+    property real contentPreferredHeight: Math.round((mainLayout.implicitHeight + 2 * Style.marginL) * Style.uiScaleRatio )
+
+
+
 
     property int fanModeIndex: fanModeToIndex(vantage.fan.value)
 
@@ -114,7 +117,7 @@ Item {
 
         NBox {
             Layout.fillWidth: true
-            height: controlsLayout.implicitHeight + Style.margin2L
+            Layout.preferredHeight: controlsLayout.implicitHeight + Style.margin2L
 
             ColumnLayout {
                 id: controlsLayout
@@ -211,15 +214,14 @@ Item {
 
         NBox {
             Layout.fillWidth: true
-            implicitHeight: list.contentHeight + 2 * Style.marginM
+            Layout.preferredHeight: list.contentHeight 
 
             NListView {
                 id: list
 
                 anchors {
                     fill: parent
-                    margins: Style.marginM
-                    leftMargin: Style.margin2M
+                    leftMargin: Style.marginL
                 }
                 spacing: Style.marginS
 
