@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import qs.Commons
 import qs.Widgets
+import "./ui"
+import "./services"
 
 Item {
     id: root
@@ -41,6 +43,11 @@ Item {
                 return i;
         }
         return 1;
+    }
+
+    function indexToFanMode(index) {
+        console.log(index);
+        return fanModesUI[index].key;
     }
 
     function indexToLabel(index) {
@@ -144,6 +151,12 @@ Item {
 
                         onMoved: v => {
                             root.fanModeIndex = v;
+                        }
+
+                        onPressedChanged: pressed => {
+                            if (!pressed) {
+                                vantage.fan.set(root.indexToFanMode(root.fanModeIndex));
+                            }
                         }
                     }
 

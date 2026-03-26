@@ -30,6 +30,20 @@ Item {
             EfficientThermalDissipation: 4
         })
 
+    component IdeapadSysfsProperty: SysfsProperty {
+        required property string file
+        readonly property string basePath: "/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00"
+
+        path: basePath + "/" + file
+    }
+
+    component LegionSysfsProperty: SysfsProperty {
+        required property string file
+        readonly property string basePath: "/sys/bus/platform/drivers/legion/PNP0C09:00"
+
+        path: basePath + "/" + file
+    }
+
     IdeapadSysfsProperty {
         id: _fan
         file: "fan_mode"
