@@ -49,7 +49,6 @@ Item {
     }
 
     function indexToFanMode(index) {
-        console.log(index);
         return fanModesUI[index].key;
     }
 
