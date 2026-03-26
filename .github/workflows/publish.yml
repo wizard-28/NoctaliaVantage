@@ -26,6 +26,9 @@ jobs:
 
           rsync -av --exclude='.git' \
                     --exclude='.github' \
+                    --exclude="noctalia-plugins" \
+                    --exclude=".gitignore" \
+                    --exclude=".qmlls.ini" \
                     ./ "$TARGET/"
 
       - name: Commit & Push
