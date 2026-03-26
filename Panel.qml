@@ -16,26 +16,23 @@ Item {
     property real contentPreferredWidth: Math.round(540 * Style.uiScaleRatio)
     property real contentPreferredHeight: Math.round((mainLayout.implicitHeight + 2 * Style.marginL) * Style.uiScaleRatio )
 
-
-
-
     property int fanModeIndex: fanModeToIndex(vantage.fan.value)
 
     // ===== MODES =====
     property var fanModesUI: [
         {
             key: 0,
-            label: "Super Silent",
+            label: pluginApi?.tr("panel.fan.mode.super_silent"),
             icon: "leaf"
         },
         {
             key: 1,
-            label: "Standard",
+            label: pluginApi?.tr("panel.fan.mode.standard"),
             icon: "balance"
         },
         {
             key: 4,
-            label: "Efficient Thermal Dissipation",
+            label: pluginApi?.tr("panel.fan.mode.efficient_thermal_dissipation"),
             icon: "bolt"
         }
     ]
@@ -96,7 +93,7 @@ Item {
                     Layout.fillWidth: true
 
                     NText {
-                        text: "Noctalia Vantage"
+                        text: pluginApi?.tr("widget.title")
                         pointSize: Style.fontSizeL
                         font.weight: Style.fontWeightBold
                         color: Color.mOnSurface
@@ -107,7 +104,7 @@ Item {
 
                 NIconButton {
                     icon: "close"
-                    tooltipText: "Close"
+                    tooltipText: pluginApi?.tr("panel.close")
                     baseSize: Style.baseWidgetSize * 0.8
                     onClicked: root.pluginApi.closePanel(root.pluginApi.panelOpenScreen)
                 }
@@ -130,7 +127,7 @@ Item {
                         spacing: Style.marginS
 
                         NText {
-                            text: "Fan Mode"
+                            text: pluginApi?.tr("panel.fan.title")
                             font.weight: Style.fontWeightBold
                             color: Color.mOnSurface
                             Layout.fillWidth: true
@@ -196,7 +193,7 @@ Item {
                     spacing: Style.marginS
 
                     NText {
-                        text: "Dust Cleaning"
+                        text: pluginApi?.tr("panel.fan.mode.dust_cleaning")
                         pointSize: Style.fontSizeM
                         font.weight: Style.fontWeightBold
                         color: Color.mOnSurface
@@ -228,27 +225,27 @@ Item {
                     {
                         visible: vantage.fnLock.available,
                         baseIcon: "keyboard",
-                        title: "Fn Lock",
-                        description: "Access multimedia keys without holding Fn",
-                        tooltip: "When enabled, the multimedia functions will be accessible without having to hold the Fn key.",
+                        title: pluginApi?.tr("panel.toggle.fn_lock.title"),
+                        description: pluginApi?.tr("panel.toggle.fn_lock.description"),
+                        tooltip: pluginApi?.tr("panel.toggle.fn_lock.tooltip"),
                         checked: vantage.fnLock.value,
                         onToggled: checked => vantage.fnLock.set(checked)
                     },
                     {
                         visible: vantage.superKey.available,
                         baseIcon: "brand-windows",
-                        title: "Super key",
-                        description: "Enables the Super/Windows key",
-                        tooltip: "Whether to enable or not the Super (Windows) key.",
+                        title: pluginApi?.tr("panel.toggle.super_key.title"),
+                        description: pluginApi?.tr("panel.toggle.super_key.description"),
+                        tooltip: pluginApi?.tr("panel.toggle.super_key.tooltip"),
                         checked: vantage.superKey.value,
                         onToggled: checked => vantage.superKey.set(checked)
                     },
                     {
                         visible: vantage.touchpad.available,
                         baseIcon: "device-laptop",
-                        title: "Touchpad",
-                        description: "Enables the laptop's touchpad",
-                        tooltip: "Whether to enable orthe laptop's touchpad.",
+                        title: pluginApi?.tr("panel.toggle.touchpad.title"),
+                        description: pluginApi?.tr("panel.toggle.touchpad.description"),
+                        tooltip: pluginApi?.tr("panel.toggle.touchpad.tooltip"),
                         checked: vantage.touchpad.value,
                         onToggled: checked => vantage.touchpad.set(checked)
                     },
@@ -256,49 +253,49 @@ Item {
                         visible: vantage.conservation.available,
                         baseIcon: "battery-charging",
                         checkedIcon: "battery-eco",
-                        title: "Battery conservation mode",
-                        description: "Limits the charge of the battery to extend its lifespan",
-                        tooltip: "When enabled, the battery will not charge above a certain value (usually around 50-70%) in order to extend its lifespan.",
+                        title: pluginApi?.tr("panel.toggle.conservation.title"),
+                        description: pluginApi?.tr("panel.toggle.conservation.description"),
+                        tooltip: pluginApi?.tr("panel.toggle.conservation.tooltip"),
                         checked: vantage.conservation.value,
                         onToggled: checked => vantage.conservation.set(checked)
                     },
                     {
                         visible: vantage.fastCharge.available,
                         baseIcon: "battery-charging",
-                        title: "Battery fast charge mode",
-                        description: "Allows the battery to charge faster",
-                        tooltip: "When enabeld, allows tthe battery to charge faster at the cost of its lifespan.",
+                        title: pluginApi?.tr("panel.toggle.fast_charge.title"),
+                        description: pluginApi?.tr("panel.toggle.fast_charge.description"),
+                        tooltip: pluginApi?.tr("panel.toggle.fast_charge.tooltip"),
                         checked: vantage.fastCharge.value,
                         onToggled: checked => vantage.fastCharge.set(checked)
                     },
                     {
                         visible: vantage.alwaysOnUSB.available,
                         baseIcon: "device-usb",
-                        title: "Always On USB",
-                        description: "Keeps the USB ports always powered on",
-                        tooltip: "Keeps the USB ports powered on even if the laptop is suspended.",
+                        title: pluginApi?.tr("panel.toggle.always_on_usb.title"),
+                        description: pluginApi?.tr("panel.toggle.always_on_usb.description"),
+                        tooltip: pluginApi?.tr("panel.toggle.always_on_usb.tooltip"),
                         checked: vantage.alwaysOnUSB.value,
                         onToggled: checked => vantage.alwaysOnUSB.set(checked)
                     },
                     {
                         visible: vantage.overdrive.available,
                         baseIcon: "bolt",
-                        title: "Display Overdrive",
-                        description: "Reduces the laptop's display latency",
-                        tooltip: "Reduces the display latency in order to limit ghosting and trailing images.\nIncreases power consumption and may introduce othher graphical defects.",
+                        title: pluginApi?.tr("panel.toggle.overdrive.title"),
+                        description: pluginApi?.tr("panel.toggle.overdrive.description"),
+                        tooltip: pluginApi?.tr("panel.toggle.overdrive.tooltip"),
                         checked: vantage.overdrive.value,
                         onToggled: checked => vantage.overdrive.set(checked)
                     },
                     {
                         visible: vantage.hybrid.available,
                         baseIcon: "cpu",
-                        title: "Hybrid graphics mode",
-                        description: "Enables the laptop's integrated graphics",
-                        tooltip: "Enables the processor's integrated graphics.\nDecreases power consupmtion by allowing the dedicated GPU to power down and work only when necessary but slightly decreases performance.\nReboot is required to apply the change.",
+                        title: pluginApi?.tr("panel.toggle.hybrid.title"),
+                        description: pluginApi?.tr("panel.toggle.hybrid.description"),
+                        tooltip: pluginApi?.tr("panel.toggle.hybrid.tooltip"),
                         checked: vantage.hybrid.value,
                         onToggled: checked => vantage.hybrid.set(checked)
                     }
-                ].filter(item => item.visible)
+                ]
 
                 delegate: SettingsRow {
                     required property var modelData
