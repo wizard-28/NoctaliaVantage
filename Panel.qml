@@ -113,185 +113,239 @@ Item {
             }
         }
 
-        NBox {
+        Loader {
             Layout.fillWidth: true
-            Layout.preferredHeight: controlsLayout.implicitHeight + Style.margin2L
 
-            ColumnLayout {
-                id: controlsLayout
-                anchors.fill: parent
-                anchors.margins: Style.marginL
-                spacing: Style.marginM
+            sourceComponent: VantageService.available ? mainContent : unavailableContent
+        }
+
+        Component {
+            id: unavailableContent
+
+            NBox {
+                anchors.centerIn: parent
+                Layout.fillWidth: true
+                implicitHeight: content.implicitHeight + Style.margin2L
 
                 ColumnLayout {
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: Style.marginS
+                    id: content
+                    anchors.fill: parent
+                    anchors.margins: Style.marginL
+                    spacing: Style.marginM
 
-                        NText {
-                            text: pluginApi?.tr("panel.fan.title")
-                            font.weight: Style.fontWeightBold
-                            color: Color.mOnSurface
-                            Layout.fillWidth: true
-                        }
-
-                        NText {
-                            text: root.indexToLabel(root.fanModeIndex)
-                            color: Color.mOnSurfaceVariant
-                        }
+                    NIcon {
+                        icon: "alert-triangle"
+                        pointSize: Style.fontSizeXL
+                        color: Color.mError
+                        Layout.alignment: Qt.AlignHCenter
                     }
-
-                    NValueSlider {
-                        Layout.fillWidth: true
-                        from: 0
-                        to: 2
-                        stepSize: 1
-                        snapAlways: true
-                        heightRatio: 0.5
-                        value: root.fanModeToIndex(VantageService.fan.value)
-
-                        onMoved: v => {
-                            root.fanModeIndex = v;
-                        }
-
-                        onPressedChanged: pressed => {
-                            if (!pressed) {
-                                VantageService.fan.set(root.indexToFanMode(root.fanModeIndex));
-                            }
-                        }
-                    }
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: Style.marginS
-
-                        NIcon {
-                            icon: "moon"
-                            pointSize: Style.fontSizeS
-                            color: root.fanModeIndex === 0 ? Color.mPrimary : Color.mOnSurfaceVariant
-                        }
-
-                        NIcon {
-                            icon: "car-fan"
-                            pointSize: Style.fontSizeS
-                            color: root.fanModeIndex === 1 ? Color.mPrimary : Color.mOnSurfaceVariant
-                            Layout.fillWidth: true
-                        }
-
-                        NIcon {
-                            icon: "flame"
-                            pointSize: Style.fontSizeS
-                            color: root.fanModeIndex === 2 ? Color.mPrimary : Color.mOnSurfaceVariant
-                        }
-                    }
-                }
-
-                NDivider {
-                    Layout.fillWidth: true
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: Style.marginS
 
                     NText {
-                        text: pluginApi?.tr("panel.fan.mode.dust_cleaning")
-                        pointSize: Style.fontSizeM
-                        font.weight: Style.fontWeightBold
+                        text: pluginApi?.tr("panel.unavailable.title")
                         color: Color.mOnSurface
+                        font.weight: Style.fontWeightBold
+                        horizontalAlignment: Text.AlignHCenter
                         Layout.fillWidth: true
                     }
 
-                    NIconButton {
-                        icon: "windmill"
-                        onClicked: VantageService.fan.set(VantageService.fanModes.DustCleaning)
+                    NText {
+                        text: pluginApi?.tr("panel.unavailable.description")
+                        color: Color.mOnSurfaceVariant
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        Layout.fillWidth: true
                     }
                 }
             }
         }
 
-        NBox {
-            Layout.fillWidth: true
-            Layout.preferredHeight: list.contentHeight
+        Component {
+            id: mainContent
 
-            NListView {
-                id: list
+            ColumnLayout {
+                anchors.fill: parent
 
-                anchors {
-                    fill: parent
-                    leftMargin: Style.marginL
-                }
-                spacing: Style.marginS
+                NBox {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: controlsLayout.implicitHeight + Style.margin2L
 
-                model: [
-                    {
-                        visible: VantageService.fnLock.available,
-                        key: "panel.toggle.fn_lock",
-                        baseIcon: "keyboard",
-                        checked: VantageService.fnLock.value,
-                        onToggled: checked => VantageService.fnLock.set(checked)
-                    },
-                    {
-                        visible: VantageService.superKey.available,
-                        key: "panel.toggle.super_key",
-                        baseIcon: "brand-windows",
-                        checked: VantageService.superKey.value,
-                        onToggled: checked => VantageService.superKey.set(checked)
-                    },
-                    {
-                        visible: VantageService.touchpad.available,
-                        key: "panel.toggle.touchpad",
-                        baseIcon: "device-laptop",
-                        checked: VantageService.touchpad.value,
-                        onToggled: checked => VantageService.touchpad.set(checked)
-                    },
-                    {
-                        visible: VantageService.conservation.available,
-                        key: "panel.toggle.conservation",
-                        baseIcon: "battery-charging",
-                        checkedIcon: "battery-eco",
-                        checked: VantageService.conservation.value,
-                        onToggled: checked => VantageService.conservation.set(checked)
-                    },
-                    {
-                        visible: VantageService.fastCharge.available,
-                        key: "panel.toggle.fast_charge",
-                        baseIcon: "battery-charging",
-                        checked: VantageService.fastCharge.value,
-                        onToggled: checked => VantageService.fastCharge.set(checked)
-                    },
-                    {
-                        visible: VantageService.alwaysOnUSB.available,
-                        key: "panel.toggle.always_on_usb",
-                        baseIcon: "device-usb",
-                        checked: VantageService.alwaysOnUSB.value,
-                        onToggled: checked => VantageService.alwaysOnUSB.set(checked)
-                    },
-                    {
-                        visible: VantageService.overdrive.available,
-                        key: "panel.toggle.overdrive",
-                        baseIcon: "bolt",
-                        checked: VantageService.overdrive.value,
-                        onToggled: checked => VantageService.overdrive.set(checked)
-                    },
-                    {
-                        visible: VantageService.hybrid.available,
-                        key: "panel.toggle.hybrid",
-                        baseIcon: "cpu",
-                        checked: VantageService.hybrid.value,
-                        onToggled: checked => VantageService.hybrid.set(checked)
+                    ColumnLayout {
+                        id: controlsLayout
+                        anchors.fill: parent
+                        anchors.margins: Style.marginL
+                        spacing: Style.marginM
+
+                        ColumnLayout {
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: Style.marginS
+
+                                NText {
+                                    text: pluginApi?.tr("panel.fan.title")
+                                    font.weight: Style.fontWeightBold
+                                    color: Color.mOnSurface
+                                    Layout.fillWidth: true
+                                }
+
+                                NText {
+                                    text: root.indexToLabel(root.fanModeIndex)
+                                    color: Color.mOnSurfaceVariant
+                                }
+                            }
+
+                            NValueSlider {
+                                Layout.fillWidth: true
+                                from: 0
+                                to: 2
+                                stepSize: 1
+                                snapAlways: true
+                                heightRatio: 0.5
+                                value: root.fanModeToIndex(VantageService.fan.value)
+
+                                onMoved: v => {
+                                    root.fanModeIndex = v;
+                                }
+
+                                onPressedChanged: pressed => {
+                                    if (!pressed) {
+                                        VantageService.fan.set(root.indexToFanMode(root.fanModeIndex));
+                                    }
+                                }
+                            }
+
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: Style.marginS
+
+                                NIcon {
+                                    icon: "moon"
+                                    pointSize: Style.fontSizeS
+                                    color: root.fanModeIndex === 0 ? Color.mPrimary : Color.mOnSurfaceVariant
+                                }
+
+                                NIcon {
+                                    icon: "car-fan"
+                                    pointSize: Style.fontSizeS
+                                    color: root.fanModeIndex === 1 ? Color.mPrimary : Color.mOnSurfaceVariant
+                                    Layout.fillWidth: true
+                                }
+
+                                NIcon {
+                                    icon: "flame"
+                                    pointSize: Style.fontSizeS
+                                    color: root.fanModeIndex === 2 ? Color.mPrimary : Color.mOnSurfaceVariant
+                                }
+                            }
+                        }
+
+                        NDivider {
+                            Layout.fillWidth: true
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: Style.marginS
+
+                            NText {
+                                text: pluginApi?.tr("panel.fan.mode.dust_cleaning")
+                                pointSize: Style.fontSizeM
+                                font.weight: Style.fontWeightBold
+                                color: Color.mOnSurface
+                                Layout.fillWidth: true
+                            }
+
+                            NIconButton {
+                                icon: "windmill"
+                                onClicked: VantageService.fan.set(VantageService.fanModes.DustCleaning)
+                            }
+                        }
                     }
-                ].filter(item => item.visible)
+                }
 
-                delegate: SettingsRow {
-                    required property var modelData
-                    baseIcon: modelData.baseIcon
-                    checkedIcon: modelData.checkedIcon ?? ""
-                    title: pluginApi.tr(modelData.key + ".title")
-                    description: pluginApi.tr(modelData.key + ".description")
-                    tooltip: pluginApi.tr(modelData.key + ".tooltip")
-                    checked: modelData.checked
-                    onToggled: checked => modelData.onToggled(checked)
+                NBox {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: list.contentHeight
+
+                    NListView {
+                        id: list
+
+                        anchors {
+                            fill: parent
+                            leftMargin: Style.marginL
+                        }
+                        spacing: Style.marginS
+
+                        model: [
+                            {
+                                visible: VantageService.fnLock.available,
+                                key: "panel.toggle.fn_lock",
+                                baseIcon: "keyboard",
+                                checked: VantageService.fnLock.value,
+                                onToggled: checked => VantageService.fnLock.set(checked)
+                            },
+                            {
+                                visible: VantageService.superKey.available,
+                                key: "panel.toggle.super_key",
+                                baseIcon: "brand-windows",
+                                checked: VantageService.superKey.value,
+                                onToggled: checked => VantageService.superKey.set(checked)
+                            },
+                            {
+                                visible: VantageService.touchpad.available,
+                                key: "panel.toggle.touchpad",
+                                baseIcon: "device-laptop",
+                                checked: VantageService.touchpad.value,
+                                onToggled: checked => VantageService.touchpad.set(checked)
+                            },
+                            {
+                                visible: VantageService.conservation.available,
+                                key: "panel.toggle.conservation",
+                                baseIcon: "battery-charging",
+                                checkedIcon: "battery-eco",
+                                checked: VantageService.conservation.value,
+                                onToggled: checked => VantageService.conservation.set(checked)
+                            },
+                            {
+                                visible: VantageService.fastCharge.available,
+                                key: "panel.toggle.fast_charge",
+                                baseIcon: "battery-charging",
+                                checked: VantageService.fastCharge.value,
+                                onToggled: checked => VantageService.fastCharge.set(checked)
+                            },
+                            {
+                                visible: VantageService.alwaysOnUSB.available,
+                                key: "panel.toggle.always_on_usb",
+                                baseIcon: "device-usb",
+                                checked: VantageService.alwaysOnUSB.value,
+                                onToggled: checked => VantageService.alwaysOnUSB.set(checked)
+                            },
+                            {
+                                visible: VantageService.overdrive.available,
+                                key: "panel.toggle.overdrive",
+                                baseIcon: "bolt",
+                                checked: VantageService.overdrive.value,
+                                onToggled: checked => VantageService.overdrive.set(checked)
+                            },
+                            {
+                                visible: VantageService.hybrid.available,
+                                key: "panel.toggle.hybrid",
+                                baseIcon: "cpu",
+                                checked: VantageService.hybrid.value,
+                                onToggled: checked => VantageService.hybrid.set(checked)
+                            }
+                        ].filter(item => item.visible)
+
+                        delegate: SettingsRow {
+                            required property var modelData
+                            baseIcon: modelData.baseIcon
+                            checkedIcon: modelData.checkedIcon ?? ""
+                            title: pluginApi.tr(modelData.key + ".title")
+                            description: pluginApi.tr(modelData.key + ".description")
+                            tooltip: pluginApi.tr(modelData.key + ".tooltip")
+                            checked: modelData.checked
+                            onToggled: checked => modelData.onToggled(checked)
+                        }
+                    }
                 }
             }
         }

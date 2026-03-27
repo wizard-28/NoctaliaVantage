@@ -14,6 +14,10 @@
     }
   },
   "panel": {
+    "unavailable": {
+      "title": "Vantage is not supported",
+      "description": "Make sure the appropriate kernel modules are enabled"
+    },
     "close": "Close",
     "fan": {
       "title": "Fan Mode",

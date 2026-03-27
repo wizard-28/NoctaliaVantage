@@ -6,7 +6,7 @@ import qs.Commons
 QtObject {
     id: root
 
-    readonly property var controls: [fan, conservation, fnLock, alwaysOnUSB, superKey, touchpad, fastCharge, overdrive, hybrid]
+    property bool available: false
 
     readonly property var fanModes: ({
             SuperSilent: 0,
@@ -14,6 +14,7 @@ QtObject {
             DustCleaning: 2,
             EfficientThermalDissipation: 4
         })
+    readonly property var controls: [fan, conservation, fnLock, alwaysOnUSB, superKey, touchpad, fastCharge, overdrive, hybrid]
 
     component IdeapadSysfsProperty: SysfsProperty {
         required property string file
@@ -94,11 +95,17 @@ QtObject {
         Logger.i("NoctaliaVantage", "Service starting...");
         for (let c of controls) {
             c.checkAvailability();
+
+            c.availableChanged.connect(() => {
+                if (c.available) {
+                    root.available = true;
+                }
+            });
         }
     }
 
     function refresh() {
-        if (!available) {
+        if (!root.available) {
             Logger.w("NoctaliaVantage", "Refresh skipped: service not available");
             return;
         }
