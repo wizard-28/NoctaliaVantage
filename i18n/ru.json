@@ -41,18 +41,18 @@
       },
       "always_on_usb": {
         "title": "Always ON USB",
-        "description": "Оставляет USB порты всегда включенными",
-        "tooltip": "Keeps the USB ports powered on even if the laptop is suspended."
+        "description": "Оставляет порты USB всегда включенными",
+        "tooltip": "Оставляет порты USB включенными даже когда ноутбук в спящем режиме."
       },
       "overdrive": {
-        "title": "Display Overdrive",
-        "description": "Reduces the laptop's display latency",
-        "tooltip": "Reduces the display latency in order to limit ghosting and trailing images.\nIncreases power consumption and may introduce othher graphical defects."
+        "title": "Разгон дисплея (Overdrive)",
+        "description": "Уменьшает задержку дисплея на ноутбуке.",
+        "tooltip": "Уменьшает задержку дисплея чтобы снизить количество шлейфов.\nУвеличивает энергопотребление и может привести к другим графическим дефектам."
       },
       "hybrid": {
-        "title": "Hybrid graphics mode",
-        "description": "Enables the laptop's integrated graphics",
-        "tooltip": "Enables the processor's integrated graphics.\nDecreases power consupmtion by allowing the dedicated GPU to power down and work only when necessary but slightly decreases performance.\nReboot is required to apply the change."
+        "title": "Режим гибридной графики",
+        "description": "Включает использование встроенного ГП ноутбука.",
+        "tooltip": "Включает использование встроенного ГП.\nУменьшает энергопотребление, позволяя дискретному ГП выключаться и работать лишь при необходимости, но немного снижает производительность.\nДля применения изменений требуется перезагрузка."
       }
     }
   }
