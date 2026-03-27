@@ -67,6 +67,13 @@ Item {
         }
     }
 
+    onVisibleChanged: {
+        if (visible) {
+            Logger.i("NoctaliaVantage", "Panel toggled: refereshing service");
+            VantageService.refresh();
+        }
+    }
+
     ColumnLayout {
         id: mainLayout
         anchors.fill: parent
