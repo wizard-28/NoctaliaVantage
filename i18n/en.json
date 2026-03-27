@@ -2,7 +2,22 @@
   "widget": {
     "title": "Noctalia Vantage"
   },
+  "ipc": {
+    "toggle": {
+      "error": "Invalid setting: {setting}",
+      "turned_on": "{setting} turned on",
+      "turned_off": "{setting} turned off"
+    },
+    "fan": {
+      "error": "Invalid fan mode: {mode}",
+      "success": "Switched fan mode to {mode}"
+    }
+  },
   "panel": {
+    "unavailable": {
+      "title": "Vantage is not supported",
+      "description": "Make sure the appropriate kernel modules are enabled"
+    },
     "close": "Close",
     "fan": {
       "title": "Fan Mode",
