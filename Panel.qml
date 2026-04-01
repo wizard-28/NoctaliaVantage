@@ -3,12 +3,12 @@ import QtQuick.Layouts
 import qs.Commons
 import qs.Widgets
 import "./ui"
-import "./services"
 
 Item {
     id: root
 
     property var pluginApi: null
+    readonly property var service: pluginApi?.mainInstance.service
 
     readonly property var geometryPlaceholder: mainLayout
     readonly property bool allowAttach: true
@@ -16,7 +16,7 @@ Item {
     property real contentPreferredWidth: Math.round(540 * Style.uiScaleRatio)
     property real contentPreferredHeight: Math.round((mainLayout.implicitHeight + 2 * Style.marginL) * Style.uiScaleRatio)
 
-    property int fanModeIndex: fanModeToIndex(VantageService.fan.value)
+    property int fanModeIndex: fanModeToIndex(root.service.fan.value)
 
     // ===== MODES =====
     property var fanModesUI: [
@@ -57,7 +57,7 @@ Item {
 
     Component.onCompleted: {
         if (pluginApi) {
-            VantageService.refresh();
+            root.service.refresh();
             Logger.i("NoctaliaVantage", "Panel initialized");
         }
     }
@@ -65,7 +65,14 @@ Item {
     onVisibleChanged: {
         if (visible) {
             Logger.i("NoctaliaVantage", "Panel toggled: refereshing service");
-            VantageService.refresh();
+            root.service.refresh();
+        }
+    }
+
+    onPluginApiChanged: {
+        // Force re-evaluation of mainInstance binding when pluginApi changes
+        if (pluginApi && pluginApi.mainInstance) {
+            serviceChanged();
         }
     }
 
@@ -116,7 +123,7 @@ Item {
         Loader {
             Layout.fillWidth: true
 
-            sourceComponent: VantageService.available ? mainContent : unavailableContent
+            sourceComponent: root.service.available ? mainContent : unavailableContent
         }
 
         Component {
@@ -200,7 +207,7 @@ Item {
                                 stepSize: 1
                                 snapAlways: true
                                 heightRatio: 0.5
-                                value: root.fanModeToIndex(VantageService.fan.value)
+                                value: root.fanModeToIndex(root.service.fan.value)
 
                                 onMoved: v => {
                                     root.fanModeIndex = v;
@@ -208,7 +215,7 @@ Item {
 
                                 onPressedChanged: pressed => {
                                     if (!pressed) {
-                                        VantageService.fan.set(root.indexToFanMode(root.fanModeIndex));
+                                        root.service.fan.set(root.indexToFanMode(root.fanModeIndex));
                                     }
                                 }
                             }
@@ -256,7 +263,7 @@ Item {
 
                             NIconButton {
                                 icon: "windmill"
-                                onClicked: VantageService.fan.set(VantageService.fan.modes.DustCleaning)
+                                onClicked: root.service.fan.set(root.service.fan.modes.DustCleaning)
                             }
                         }
                     }
@@ -277,61 +284,61 @@ Item {
 
                         model: [
                             {
-                                visible: VantageService.fnLock.available,
+                                visible: root.service.fnLock.available,
                                 key: "panel.toggle.fn_lock",
                                 baseIcon: "keyboard",
-                                checked: VantageService.fnLock.value,
-                                onToggled: checked => VantageService.fnLock.set(checked)
+                                checked: root.service.fnLock.value,
+                                onToggled: checked => root.service.fnLock.set(checked)
                             },
                             {
-                                visible: VantageService.superKey.available,
+                                visible: root.service.superKey.available,
                                 key: "panel.toggle.super_key",
                                 baseIcon: "brand-windows",
-                                checked: VantageService.superKey.value,
-                                onToggled: checked => VantageService.superKey.set(checked)
+                                checked: root.service.superKey.value,
+                                onToggled: checked => root.service.superKey.set(checked)
                             },
                             {
-                                visible: VantageService.touchpad.available,
+                                visible: root.service.touchpad.available,
                                 key: "panel.toggle.touchpad",
                                 baseIcon: "device-laptop",
-                                checked: VantageService.touchpad.value,
-                                onToggled: checked => VantageService.touchpad.set(checked)
+                                checked: root.service.touchpad.value,
+                                onToggled: checked => root.service.touchpad.set(checked)
                             },
                             {
-                                visible: VantageService.conservation.available,
+                                visible: root.service.conservation.available,
                                 key: "panel.toggle.conservation",
                                 baseIcon: "battery-charging",
                                 checkedIcon: "battery-eco",
-                                checked: VantageService.conservation.value,
-                                onToggled: checked => VantageService.conservation.set(checked)
+                                checked: root.service.conservation.value,
+                                onToggled: checked => root.service.conservation.set(checked)
                             },
                             {
-                                visible: VantageService.fastCharge.available,
+                                visible: root.service.fastCharge.available,
                                 key: "panel.toggle.fast_charge",
                                 baseIcon: "battery-charging",
-                                checked: VantageService.fastCharge.value,
-                                onToggled: checked => VantageService.fastCharge.set(checked)
+                                checked: root.service.fastCharge.value,
+                                onToggled: checked => root.service.fastCharge.set(checked)
                             },
                             {
-                                visible: VantageService.alwaysOnUSB.available,
+                                visible: root.service.alwaysOnUSB.available,
                                 key: "panel.toggle.always_on_usb",
                                 baseIcon: "device-usb",
-                                checked: VantageService.alwaysOnUSB.value,
-                                onToggled: checked => VantageService.alwaysOnUSB.set(checked)
+                                checked: root.service.alwaysOnUSB.value,
+                                onToggled: checked => root.service.alwaysOnUSB.set(checked)
                             },
                             {
-                                visible: VantageService.overdrive.available,
+                                visible: root.service.overdrive.available,
                                 key: "panel.toggle.overdrive",
                                 baseIcon: "bolt",
-                                checked: VantageService.overdrive.value,
-                                onToggled: checked => VantageService.overdrive.set(checked)
+                                checked: root.service.overdrive.value,
+                                onToggled: checked => root.service.overdrive.set(checked)
                             },
                             {
-                                visible: VantageService.hybrid.available,
+                                visible: root.service.hybrid.available,
                                 key: "panel.toggle.hybrid",
                                 baseIcon: "cpu",
-                                checked: VantageService.hybrid.value,
-                                onToggled: checked => VantageService.hybrid.set(checked)
+                                checked: root.service.hybrid.value,
+                                onToggled: checked => root.service.hybrid.set(checked)
                             }
                         ].filter(item => item.visible)
 

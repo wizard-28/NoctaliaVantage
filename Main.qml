@@ -9,21 +9,21 @@ Item {
     property var pluginApi: null
 
     readonly property var toggleMap: ({
-            conservation: VantageService.conservation,
-            fnLock: VantageService.fnLock,
-            alwaysOnUSB: VantageService.alwaysOnUSB,
-            superKey: VantageService.superKey,
-            touchpad: VantageService.touchpad,
-            fastCharge: VantageService.fastCharge,
-            overdrive: VantageService.overdrive,
-            hybrid: VantageService.hybrid
+            conservation: service.conservation,
+            fnLock: service.fnLock,
+            alwaysOnUSB: service.alwaysOnUSB,
+            superKey: service.superKey,
+            touchpad: service.touchpad,
+            fastCharge: service.fastCharge,
+            overdrive: service.overdrive,
+            hybrid: service.hybrid
         })
 
     readonly property var fanModeMap: ({
-            superSilent: VantageService.fan.modes.SuperSilent,
-            standard: VantageService.fan.modes.Standard,
-            dustCleaning: VantageService.fan.modes.DustCleaning,
-            efficientThermalDissipation: VantageService.fan.modes.EfficientThermalDissipation
+            superSilent: service.fan.modes.SuperSilent,
+            standard: service.fan.modes.Standard,
+            dustCleaning: service.fan.modes.DustCleaning,
+            efficientThermalDissipation: service.fan.modes.EfficientThermalDissipation
         })
 
     enum ToggleAction {
@@ -76,8 +76,8 @@ Item {
             });
         }
 
-        VantageService.fan.set(fanMode);
-        return waitForWriteResult(VantageService.fan);
+        service.fan.set(fanMode);
+        return waitForWriteResult(service.fan);
     }
 
     function applyToggle(setting, action, messages) {
@@ -104,7 +104,7 @@ Item {
     }
 
     Component.onCompleted: {
-        VantageService.refresh();
+        service.refresh();
     }
 
     IpcHandler {
@@ -155,5 +155,11 @@ Item {
                 }
             });
         }
+    }
+
+    property alias service: _vantageService
+
+    VantageService {
+        id: _vantageService
     }
 }

@@ -1,5 +1,3 @@
-pragma Singleton
-
 import QtQuick
 import qs.Commons
 
