@@ -74,7 +74,3 @@ GNU Public License 3.0 or later
 
 - [PlasmaVantage](https://gitlab.com/Scias/plasmavantage) for showing how to do things.
 - [ideapad-battery-health](https://github.com/noctalia-dev/noctalia-plugins/tree/main/ideapad-battery-health) for showing how to do rest of the things.
-
-```
-
-```
