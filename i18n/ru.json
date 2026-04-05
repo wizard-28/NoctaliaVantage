@@ -6,16 +6,22 @@
     "toggle": {
       "invalid_setting": "Неизвестный параметр: {setting}",
       "on": {
-        "success": "{setting} Включёно"
+        "success": "Включено {setting}"
+        "error": "Не удалось включить {setting}"
       },
       "off": {
-        "success": "{setting} Выключено"
+        "success": "Выключено {setting}"
+        "error": "Не удалось выключить {setting}"
+      },
+      "flip": {
+        "error": "Не удалось переключить {setting}"
       }
     },
     "fan": {
       "invalid_mode": "Неизвестный режим вентиляторов: {mode}",
       "set": {
         "success": "Режим вентиляторов переключён на {mode}"
+        "error": "Не удалось переключить режим вентиляторов на {mode}"
       }
     }
   },
